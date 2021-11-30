@@ -1,0 +1,49 @@
+tkcalender
+
+
+print(os.getcwd())
+print(os.listdir('/Users'))
+
+
+ # with open('zelal.png', 'wb') as f:
+#   f.write(self.civilId)
+_________________________________________
+ # add CheckButton GUI
+
+checkButton = ttk.Checkbutton(root, text="Hello")
+checkbutton.pack()
+
+
+To store String into Variable
+
+spam=StringVar()
+spam.set('SPAM)
+spam.get()   # to get the stored val
+
+checkbutton.config(variable=spam, onvalue='spam please!', offvalue='no spam')
+spam.get()
+
+# add Radio Buttons
+
+breakfast = StringVar()
+ttk.Radiobutton(root, text='Spam', variable=breakfast, value='Spam').pack()
+breakfast.get()
+checkbutton.config(textvariable=breakfast)
+
+
+STYLEEEEEE
+
+for widget in root.pack_slaves():
+      widget.pack_configure(font=(30))
+      print(widget.pack_info())
+
+
+---------Windows-------
+window.state('withdrawn')   // hide window
+
+
+
+------PDF------------
+pip3 install PyPDF2
+
+
