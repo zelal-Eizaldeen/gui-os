@@ -1,4 +1,4 @@
-tkcalender
+tkinter=> BooleanVar / DoubleVar / StringVar / IntVar
 
 
 print(os.getcwd())
@@ -45,5 +45,7 @@ window.state('withdrawn')   // hide window
 
 ------PDF------------
 pip3 install PyPDF2
+
+
 
 

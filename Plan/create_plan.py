@@ -7,6 +7,7 @@ import os
 
 from Backend.backend_db import Database
 from Appointment.appointment_template import Appointment
+from Task.task_template import *
 from Directories.save_plans import *
 
 
@@ -104,61 +105,20 @@ class CreatePlan:
     if self.type_plan.get() == 'Accepted':
       self.payment_status = 1
       database.insert_payment(self.employeeId, self.entry_customerName.get(), self.entry_customerId.get(),  self.payment_status, self.created_at)
-
+      # self.master.withdraw()
+     
     if self.type_plan.get() == 'Final':
       self.rukhsah_status = 1
       database.insert_rukhsah(self.employeeId, self.entry_customerName.get(), self.entry_customerId.get(),  self.rukhsah_status, self.created_at)
-    
     messagebox.showinfo(title = "Success", message = "Plan Submited!")
-    # self.save_locally()
-    self.master.destroy()
-    self.make_appointmnet()
-    
-  
-  # def save_locally(self):
-  #   for row in database.view_plan():
-  #     self.employeeId = row[1]
-  #     self.customerId = row[3]
-  #     self.type_plan = row[4]
-  #     self.plan = row[5]
+    task_win = Toplevel(self.master)
+    Task(task_win,self.employeeId, self.entry_customerName.get(), self.entry_customerId.get())
       
-  #     # filename = self.type_plan
-  #     directory = './Document/{}'.format(self.customerId)
-     
-  #     if self.type_plan == 'Architectural':
-  #       filename = "architectual.png"
-  #       print(filename)   
-  #     elif self.type_plan == 'Structural':
-  #       filename = "structural.png"
-  #     elif self.type_plan == 'Accepted':
-  #       filename = "accepted.png"
-  #     elif self.type_plan == 'Approved':
-  #       filename = "approved.png"
-  #     elif self.type_plan == 'Final':
-  #       filename = "final.png"
-  #     else:
-  #       print("No Files")  
-  #     print("File Path")
-      
-  #     file_path = os.path.join(directory, filename)
-  #     if not os.path.isdir(directory):
-  #       os.mkdir(directory)
-  #     file = open(file_path, "wb")
-  #     print(file.name)
-  #     file.write(self.plan)
-  #     file.close()
+
+    # self.make_appointmnet()
+ 
   
   def make_appointmnet(self):
     root=Tk()
     appointment = Appointment(root, self.employeeId, self.customerName, self.customerId)
     
- 
-   
-
-  
-# def main():
-#   root = Tk()
-#   create_plan = CreatePlan(root)
-#   print(create_plan.type_plan)
-#   root.mainloop()
-# if __name__ == "__main__": main()

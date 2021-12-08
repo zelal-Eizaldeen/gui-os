@@ -23,8 +23,10 @@ class Payment:
     self.created_at = datetime.datetime.now()
 
     self.master.title('Make Payment')
+    self.master.geometry('800x800+300+300')
+
    
-    self.master.geometry("{0}x{1}+0+0".format(master.winfo_screenwidth(), master.winfo_screenheight()))
+    # self.master.geometry("{0}x{1}+0+0".format(master.winfo_screenwidth(), master.winfo_screenheight()))
     self.master.configure(background = '#e1d8b9')
     
 

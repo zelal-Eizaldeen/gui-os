@@ -10,7 +10,7 @@ class Database:
     self.cur.execute("CREATE TABLE IF NOT EXISTS rukhsah (id INTEGER PRIMARY KEY, employeeId text, customerName text, customerId text, rukhsah blob, status BOOLEAN NOT NULL CHECK (status IN (0, 1)),created_at timestamp)")
 
     self.cur.execute("CREATE TABLE IF NOT EXISTS appointment (id INTEGER PRIMARY KEY, employeeId text, customerId text, customerName,date string)")
-    self.cur.execute("CREATE TABLE IF NOT EXISTS task (id INTEGER PRIMARY KEY, type text, status BOOLEAN NOT NULL CHECK (status IN (0, 1)), employeeId text, customerId text, customerName,created_at timestamp)")
+    self.cur.execute("CREATE TABLE IF NOT EXISTS task (id INTEGER PRIMARY KEY, type text, status text, employeeId text, customerName text, customerId text, employee_for text, created_at timestamp)")
 
     self.conn.commit()
   
@@ -74,12 +74,6 @@ class Database:
     rows=self.cur.fetchall()
     return rows 
 
-# ------------------Tasks ----------------------------
-  def insert_task(self, task_type, status, employeeId, customerId, customerName, created_at):
-    self.cur.execute("INSERT INTO task VALUES (NULL,?,?,?,?,?,?)", (task_type, status, employeeId, customerId, customerName,created_at))
-    self.conn.commit()
-
-  
 #-----------------------Rukhsah-----------------------------
   def insert_rukhsah(self, employeeId, customerName, customerId,status, created_at ): 
     self.cur.execute("INSERT INTO rukhsah VALUES (NULL,?,?,?,NULL,?,?)", (employeeId, customerName, customerId,status, created_at))
@@ -93,11 +87,28 @@ class Database:
     rows=self.cur.fetchall()
     return rows
 
+#-----------------------Task-----------------------------
+  def insert_task(self, task_type, task_status, employeeId, customerName, customerId,employee_for, created_at ): 
+    self.cur.execute("INSERT INTO task VALUES (NULL,?,?,?,?,?,?,?)", (task_type, task_status, employeeId, customerName, customerId,employee_for, created_at))
+    self.conn.commit()
+  def update_task(self, task_type, task_status, employeeId, customerName, customerId,employee_for, created_at ): 
+    self.cur.execute("UPDATE task SET type=?, status=?, employeeId=?, employee_for=?, created_at=? WHERE customerId=?", (task_type, task_status, created_at, customerId))
+    self.conn.commit()
+
+  def view_tasks(self, employeeId):
+    
+    self.cur.execute("SELECT type AS Type_of_Task, status, customerName, customerId, employee_for, created_at FROM task WHERE employee_for=?", (employeeId, ))
+    rows=self.cur.fetchall()
+  
+    return rows
+  def delete_task(self,customerId):
+    self.cur.execute("DELETE FROM task WHERE id=?", (customerId,))
+    self.conn.commit()
+
 
 
 
  
-  
   
     
 
