@@ -41,24 +41,37 @@ class ShowAllAppointments:
     self.list_appointmnets=Listbox(self.frame_content, height=6,width=35)
     self.list_appointmnets.grid(row=2,column=0,rowspan=6,columnspan=2)
     self.list_appointmnets.bind('<<ListboxSelect>>',self.get_selected_appointmnet)
+    ttk.Button(self.frame_content, text = 'Delete Appointment', command=self.delete_appointment).grid(row = 3, column= 5,   padx= 10, pady=20)
 
-    
-  
-    self.view_all_appointments()
-    # ttk.Button(self.frame_content, text = 'View Document', command=self.view_document).grid(row = 22, column= 1,  padx = 10, pady=20)
+
+    if self.employeeId == 'secretary':
+      self.view_all_sec_appointments()
+    else:
+      self.view_all_appointments()
+   
+
 
   def get_selected_appointmnet(self,event):
-        index=self.list_appointmnets.curselection()[0]
-        self.selected_tuple=self.list_appointmnets.get(index)
+        self.index=self.list_appointmnets.curselection()[0]
+        self.selected_tuple=self.list_appointmnets.get(self.index)
         
-
-        
-
-
   def view_all_appointments(self):
     self.list_appointmnets.delete(0,END)
     for row in database.view_all_appointments(self.employeeId):
       self.list_appointmnets.insert(END,row)
+      self.customerId = row[0]
+  def view_all_sec_appointments(self):
+    self.list_appointmnets.delete(0,END)
+    for row in database.view_all_sec_appointments():
+      self.list_appointmnets.insert(END,row)
+      self.customerId = row[0]
+     
+
+  def delete_appointment(self):
+    database.delete_appointment(self.customerId)
+    self.list_appointmnets.delete(self.index)
+  
+
        
       
   # def view_document(self):

@@ -84,10 +84,6 @@ class CreatePlan:
     self.radio_app.grid(row = 7, column= 0,  padx = 5)  
     self.radio_final.grid(row = 8, column= 0,  padx = 5)  
 
-
-    
-
-
     ttk.Button(self.frame_content, text = 'Upload Plan', command=self.upload_plan).grid(row = 9, column= 0,  padx = 5)   
     ttk.Button(self.frame_content, text = 'Submit', command=self.submit).grid(row = 9, column= 1,  padx = 5, sticky='e')
 
@@ -105,19 +101,13 @@ class CreatePlan:
     if self.type_plan.get() == 'Accepted':
       self.payment_status = 1
       database.insert_payment(self.employeeId, self.entry_customerName.get(), self.entry_customerId.get(),  self.payment_status, self.created_at)
-      # self.master.withdraw()
-     
+      # self.master.withdraw()  
     if self.type_plan.get() == 'Final':
       self.rukhsah_status = 1
       database.insert_rukhsah(self.employeeId, self.entry_customerName.get(), self.entry_customerId.get(),  self.rukhsah_status, self.created_at)
     messagebox.showinfo(title = "Success", message = "Plan Submited!")
     task_win = Toplevel(self.master)
     Task(task_win,self.employeeId, self.entry_customerName.get(), self.entry_customerId.get())
-      
-
-    # self.make_appointmnet()
- 
-  
   def make_appointmnet(self):
     root=Tk()
     appointment = Appointment(root, self.employeeId, self.customerName, self.customerId)

@@ -56,9 +56,17 @@ class Database:
     self.cur.execute("SELECT  customerId, customerName, date FROM appointment WHERE employeeId=?", (employeeId,))
     rows=self.cur.fetchall()
     return rows
+  def view_all_sec_appointments(self):
+    self.cur.execute("SELECT  customerId, customerName, date FROM appointment")
+    rows=self.cur.fetchall()
+    return rows
   def insert_appointment(self,employeeId,customerId, customerName, date):
     self.cur.execute("INSERT INTO appointment VALUES (NULL,?,?,?,?)", (employeeId,customerId, customerName, date))
     self.conn.commit()
+  def delete_appointment(self, customerId):
+    self.cur.execute("DELETE FROM appointment WHERE customerId=?", (customerId,))
+    self.conn.commit()
+
 
 
 # ----------------Plan-----------------------------------------
@@ -73,6 +81,10 @@ class Database:
     self.cur.execute("SELECT customerName, customerId, created_at FROM plan WHERE type=?", (plan_type, ))    
     rows=self.cur.fetchall()
     return rows 
+  def delete_accepted_plan(self, customerId):
+    self.cur.execute("DELETE FROM plan WHERE customerId=? AND type=?", (customerId,'Accepted'))
+    self.conn.commit()
+
 
 #-----------------------Rukhsah-----------------------------
   def insert_rukhsah(self, employeeId, customerName, customerId,status, created_at ): 
@@ -81,7 +93,6 @@ class Database:
   def update_rukhsah(self, employeeId, customerName, customerId, rukhsah, rukhsah_status, created_at):
     self.cur.execute("UPDATE rukhsah SET status=?, rukhsah=?, created_at=? WHERE customerId=?", (rukhsah_status, rukhsah, created_at, customerId))
     self.conn.commit()
-
   def view_rukhsahs(self):
     self.cur.execute("SELECT * FROM rukhsah")
     rows=self.cur.fetchall()
@@ -95,15 +106,16 @@ class Database:
     self.cur.execute("UPDATE task SET type=?, status=?, employeeId=?, employee_for=?, created_at=? WHERE customerId=?", (task_type, task_status, created_at, customerId))
     self.conn.commit()
 
-  def view_tasks(self, employeeId):
-    
-    self.cur.execute("SELECT type AS Type_of_Task, status, customerName, customerId, employee_for, created_at FROM task WHERE employee_for=?", (employeeId, ))
+  def view_tasks(self, employeeId): 
+    self.cur.execute("SELECT type, customerName, customerId, employee_for, created_at FROM task WHERE status=? AND employee_for=?", ('Not Completed', employeeId ))
     rows=self.cur.fetchall()
-  
     return rows
   def delete_task(self,customerId):
-    self.cur.execute("DELETE FROM task WHERE id=?", (customerId,))
+    self.cur.execute("DELETE FROM task WHERE customerId=?", (customerId,))
     self.conn.commit()
+  
+  def __del__(self):
+        self.conn.close()
 
 
 

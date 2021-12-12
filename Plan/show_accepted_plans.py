@@ -32,26 +32,23 @@ class ShowAcceptedPlans:
     self.frame_content = ttk.Frame(master)
     self.frame_content.pack()
 
-    ttk.Label(self.frame_content, text = 'All Accepted Plans: ' ).grid(row = 0, column = 0, padx = 5, sticky='sw')
-   
+    ttk.Label(self.frame_content, text = 'All Accepted Plans: ' ).grid(row = 0, column = 0, padx = 5, sticky='sw') 
     self.list_accepted_plans=Listbox(self.frame_content, height=6,width=35)
     self.list_accepted_plans.grid(row=2,column=0,rowspan=6,columnspan=2)
     self.list_accepted_plans.bind('<<ListboxSelect>>',self.get_selected_accepted_plan)
-  
+    ttk.Button(self.frame_content, text = 'Delete Plan', command=self.delete_accepted_plan).grid(row = 2, column= 2,   padx= 10, pady=20)
+
     self.view_all_accepted_plans()
-    # ttk.Button(self.frame_content, text = 'View Document', command=self.view_document).grid(row = 22, column= 1,  padx = 10, pady=20)
 
   def get_selected_accepted_plan(self,event):
-        index=self.list_accepted_plans.curselection()[0]
-        self.selected_tuple=self.list_accepted_plans.get(index)
-        print(self.selected_tuple)
-
-        
-
-
+        self.index=self.list_accepted_plans.curselection()[0]
+        self.selected_tuple=self.list_accepted_plans.get(self.index)     
   def view_all_accepted_plans(self):
     self.list_accepted_plans.delete(0,END)
     self.plan_type = 'Accepted'
     for row in database.view_all_accepted_plans(self.plan_type):
       self.list_accepted_plans.insert(END,row)
-      print(row)
+      self.customerId = row[1]
+  def delete_accepted_plan(self):
+    database.delete_accepted_plan(self.customerId)
+    self.list_accepted_plans.delete(self.index)

@@ -20,13 +20,8 @@ class Task:
     self.customerName = customerName
     self.customerId = customerId
     self.created_at = datetime.datetime.now()
-  
-
     self.master.title('Make Task')
     self.master.geometry('800x800+300+300')
-
-    
-   
     # self.master.geometry("{0}x{1}+0+0".format(master.winfo_screenwidth(), master.winfo_screenheight()))
     self.master.configure(background = '#e1d8b9')
     
@@ -53,10 +48,10 @@ class Task:
     self.entry_name = ttk.Entry(self.frame_content, width = 24)
     self.entry_name.insert(0, self.customerName)
     # self.entry_name.state(['disabled'])
-    self.entry_name.state(['readonly'])
+    # self.entry_name.state(['readonly'])
     self.entry_phoneNo = ttk.Entry(self.frame_content, text = self.customerId,width = 24)
     self.entry_phoneNo.insert(0, self.customerId)
-    self.entry_phoneNo.state(['readonly'])
+    # self.entry_phoneNo.state(['readonly'])
     self.entry_name.grid(row=0, column=1, padx = 5)
     self.entry_phoneNo.grid(row=1, column=1, padx = 5)
 
@@ -88,7 +83,9 @@ class Task:
   def submit_task(self):
     database.insert_task(self.task_type.get(), self.task_status.get(), self.employeeId, self.customerName, self.customerId, self.employee_for.get(), self.created_at)
     messagebox.showinfo(title = "Success", message = "Task Submited!")
-    # self.master.destroy()
+    self.master.destroy()
+
+  
   
 
   
